@@ -1,0 +1,17 @@
+/* EmojiPickerComponent.css */
+.EmojiPickerReact {
+  --epr-emoji-size: 32px; /* Change this value to adjust the emoji size */
+  --epr-emoji-gap: 8px; /* Change this value to adjust the gap between emojis */
+  --epr-hover-bg-color: #f0f0f0; /* Change this value to adjust the hovered emoji background color */
+  --epr-bg-color: #ffffff; /* Change this value to adjust the background color of the picker */
+  --epr-category-label-bg-color: #ffffff; /* Change this value to match the background color */
+}
+
+
+.EmojiPickerReact.epr-dark-theme {
+  --epr-emoji-size: 40px; /* Increase the emoji size for dark theme */
+  --epr-emoji-gap: 16px; /* Increase the gap between emojis for dark theme */
+  --epr-hover-bg-color: #555555; /* Change the hover background color for dark theme */
+  --epr-bg-color: #333333; /* Change the picker background color for dark theme */
+  --epr-category-label-bg-color: #333333; /* Change the category label background color for dark theme */
+}
