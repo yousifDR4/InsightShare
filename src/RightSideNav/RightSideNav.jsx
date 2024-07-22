@@ -3,8 +3,11 @@ import Messages from "./Messages";
 import { CSSTransition } from "react-transition-group";
 import "./RightNav.css";
 import UserList from "./UserList";
+import { useDispatch, useSelector } from "react-redux";
+import { closeChat } from "../store/selectedChatSlice";
 const MemorizeMessages = memo(Messages);
 function RightSideNav() {
+  const DispatchRedux= useDispatch()
   const messageRef = useRef();
   const textareaRef = useRef();
   const [content, setContent] = useState("");
@@ -12,11 +15,12 @@ function RightSideNav() {
   const [showAfterFade, setShowAfterFade] = useState(false);
   const [message, setMessage] = useState(null);
   const [chatbox, setChatbox] = useState(false);
-  const [user, setUser] = useState("");
   const memorizeMessages = useMemo(
     () => <MemorizeMessages message={message} />,
     [message]
   );
+  const Selectedchat=useSelector(state=>state.selectedChat.selectedChat);
+
   const adjustHeight = () => {
     const textarea = textareaRef.current;
     textarea.style.height = "auto"; // Reset the height
@@ -61,10 +65,12 @@ function RightSideNav() {
   const onUserselect = () => {
     setChatbox(true);
   };
+  const users = [{ name: "yousif" }, { name: "noor" }];
+  console.log(Selectedchat);
   return (
     <div className="w-full pr-3 mr-0">
-      <UserList onUserselect={onUserselect} setUser={setUser}/>
-      {chatbox && (
+      <UserList users={users}/>
+      {Selectedchat.open && (
         <div className="fixed rounded-md bg-white w-72 h-96 bottom-1 right-5 z-10 shadow-2xl font-bold font-sans">
           <div className="p-1 shadow-md grid grid-cols-3">
             <div className="col-span-2">
@@ -74,14 +80,15 @@ function RightSideNav() {
                   alt=""
                   className="rounded-full h-10 w-10 ml-3 mr-3 items-center m-0"
                 />
-                <p className="pr-2">{user}</p>
+                <p className="pr-2">{Selectedchat.data.name}</p>
               </span>
             </div>
             <button
               className="justify-self-end flex justify-center items-center rounded-full h-10 w-10 hover:bg-gray-200"
               onClick={(e) => {
                 e.preventDefault();
-                setChatbox(false);
+                
+              DispatchRedux(closeChat());
               }}
             >
               <svg
