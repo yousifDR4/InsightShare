@@ -1,12 +1,18 @@
-import React from 'react'
-import { useDispatch } from 'react-redux';
-import { setChat } from '../store/selectedChatSlice';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { setChat } from "../store/selectedChatSlice";
 
-function UserItem({data}) {
- const DispatchRedux= useDispatch()
- console.log(data,"user");
+function UserItem({ data }) {
+  const DispatchRedux = useDispatch();
+  console.log(data, "user");
   return (
-    <div className=' hover:bg-gray-200 pb-4' onClick={()=>{DispatchRedux(setChat(data))}}>
+    <div
+      className=" hover:bg-gray-200 pb-4"
+      onClick={() => {
+        console.log("works");
+        DispatchRedux(setChat(data));
+      }}
+    >
       <span className="text-sm w-full h-10 flex items-center text-right ">
         <img
           src="./photo_2024-05-18_12-08-09.jpg"
@@ -15,9 +21,8 @@ function UserItem({data}) {
         />
         <p className="mt-3">{data.name}</p>
       </span>
-      </div>
-    
-  )
+    </div>
+  );
 }
 
-export default UserItem
+export default UserItem;

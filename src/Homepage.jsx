@@ -10,65 +10,28 @@ import currentuser from "./auth/currentuser";
 import { setUserInfo } from "./utils/localstoreg";
 import DropDown from "./UI/DropDown";
 import "./echo.js";
+import "./App.css";
 import MobileChat from "./ChatBox/MobileChat.jsx";
+import useDomScroll from "./controllerHooks/useDomScroll.jsx";
+import useDropminue from "./controllerHooks/useDropminue.jsx";
+import useBackdorp from "./controllerHooks/useBackdorp.jsx";
+import HomePageModule from "./HomePageModule.jsx";
+import PageDrop from "./UI/PageDrop.jsx";
 let id = "";
 function Homepage() {
-  const user = useSelector((state) => state.user.user);
-  const [state, setState] = useState("");
-  console.log(id);
-
-  const handleInput = (e) => {
-    setState(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {
-      message: state,
-      sender_id: user.id,
-      conversations_id: 1,
-    };
-    await message(payload, id);
-  };
-
-  const drop1 = useRef();
-  const drop2 = useRef();
-  const DispatchRedux = useDispatch();
-  const [isOpen1, setIsOpen1] = useState(false);
-
-  const toggleDropdown1 = () => {
-    setIsOpen1(!isOpen1);
-  };
-  const [isOpen2, setIsOpen2] = useState(false);
-
-  const toggleDropdown2 = () => {
-    setIsOpen2(!isOpen2);
-  };
-
-  useEffect(() => {
-    try {
-      const fn = async () => {
-        const data = await currentuser();
-
-        DispatchRedux(setUser(data));
-        setUserInfo(data);
-      };
-      fn();
-    } catch (e) {}
-  }, []);
-  useEffect(() => {
-    const handelevent = (e) => {
-      console.log(e.target);
-      // if (!drop1.current?.contains(e.target)) {
-      //   setIsOpen1(false);
-      // }
-      // if (!drop2.current?.contains(e.target)) {
-      //   setIsOpen2(false);
-      // }
-    };
-    document.addEventListener("mousedown", handelevent);
-  });
-  const users = [{ name: "yousif" }, { name: "noor" },{name:"hamza"}];
+  const {
+    backdropRef,
+    bluerRef,
+    toggleDropdown1,
+    toggleDropdown2,
+    drop1,
+    backdrop,
+    drop2,
+    isOpen1,
+    isOpen2,
+    setBackdrop,
+  } = HomePageModule();
+  const users = [{ name: "yousif" }, { name: "noor" }, { name: "hamza" }];
   return (
     <div className=" w-full h-fit bg-gray-100 grid grid-cols-1 grid-rows-auto items-start">
       <div className="w-full h-fit bg-gray-100">
@@ -84,7 +47,7 @@ function Homepage() {
               </div>
               {isOpen1 && (
                 <div className="relative">
-                  <div className="absolute z-0 -right-9  -top-5 bg-red-50 w-32 h-32 font-sans rounded-md">
+                  <div className="absolute z-10 -right-9  -top-5 bg-red-50 w-32 h-32 font-sans rounded-md">
                     <ul className="text-black bg-white shadow-sm ">
                       <li className="p-1 px-2 cursor-pointer hover:bg-gray-200">
                         login
@@ -119,16 +82,18 @@ function Homepage() {
             >
               <DropDown />
               <span className="self-center">friends list</span>
-            </div>
-            {isOpen2 && (
-              <div className="relative ">
-                <div className="absolute z-0 -right-3 top-5 w-32 h-32">
-                  <ul className="text-black bg-white shadow-sm ">
-                   {(users.length>0)? users.map((user)=> <MobileChat data={user}/>):""}
-                  </ul>
+              {isOpen2 && (
+                <div className="relative ">
+                  <div className="absolute  -right-3 top-14 z-10 w-32 h-32">
+                    <ul className="text-black bg-white shadow-sm ">
+                      {users.length > 0
+                        ? users.map((user) => <MobileChat data={user} />)
+                        : ""}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -137,7 +102,11 @@ function Homepage() {
           <LeftSideNav />
           <div className="col-start-1 col-end-5 md:col-span-2 px-6">
             {" "}
-            <Post />
+            <Post
+              backdrop={backdrop}
+              setBackdrop={setBackdrop}
+              ref={backdropRef}
+            />
             <Content />
             <Content />
             <Content />
@@ -145,6 +114,7 @@ function Homepage() {
           <RightSideNav />
         </div>
       </div>
+      <PageDrop backdrop={backdrop} ref={bluerRef} />
     </div>
   );
 }

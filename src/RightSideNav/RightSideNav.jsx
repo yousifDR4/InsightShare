@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeChat } from "../store/selectedChatSlice";
 const MemorizeMessages = memo(Messages);
 function RightSideNav() {
-  const DispatchRedux= useDispatch()
+  const DispatchRedux = useDispatch();
   const messageRef = useRef();
   const textareaRef = useRef();
   const [content, setContent] = useState("");
@@ -19,7 +19,7 @@ function RightSideNav() {
     () => <MemorizeMessages message={message} />,
     [message]
   );
-  const Selectedchat=useSelector(state=>state.selectedChat.selectedChat);
+  const Selectedchat = useSelector((state) => state.selectedChat.selectedChat);
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -65,11 +65,11 @@ function RightSideNav() {
   const onUserselect = () => {
     setChatbox(true);
   };
-  const users = [{ name: "yousif" }, { name: "noor" }];
+  const users = [{ name: "yousif" }, { name: "noor" }, { name: "hamza" }];
   console.log(Selectedchat);
   return (
     <div className="w-full pr-3 mr-0">
-      <UserList users={users}/>
+      <UserList users={users} />
       {Selectedchat.open && (
         <div className="fixed rounded-md bg-white w-72 h-96 bottom-1 right-5 z-10 shadow-2xl font-bold font-sans">
           <div className="p-1 shadow-md grid grid-cols-3">
@@ -87,8 +87,8 @@ function RightSideNav() {
               className="justify-self-end flex justify-center items-center rounded-full h-10 w-10 hover:bg-gray-200"
               onClick={(e) => {
                 e.preventDefault();
-                
-              DispatchRedux(closeChat());
+
+                DispatchRedux(closeChat());
               }}
             >
               <svg
@@ -168,13 +168,11 @@ function RightSideNav() {
                   handlemessagesubmit(e);
                 }
               }}
-          
               placeholder="Type something..."
               className="outline-none resize-none shadow-md w-3/4 rounded-xl bg-gray-200 text-sm font-normal font-sans flex-1 p-2"
               style={{ lineHeight: "1.5em", minWidth: "196px" }}
               rows="1"
             />
-           
           </div>
         </div>
       )}

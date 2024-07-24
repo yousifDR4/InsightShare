@@ -1,55 +1,56 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import Happines from "../UI/Happines.jsx";
 
 const PostForm = () => {
   const initialValues = {
-    content: ''
+    content: "",
   };
 
   const validationSchema = Yup.object({
-    content: Yup.string().required('Required')
+    content: Yup.string().required("Required"),
   });
 
   const onSubmit = (values, { resetForm }) => {
-    console.log('Form data', values);
+    console.log("Form data", values);
     resetForm();
   };
 
   return (
-    
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full max-w-md p-4 bg-white rounded shadow-md">
-          <h1 className="text-2xl font-bold mb-4">Create Post</h1>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {formik => (
-              <Form className="w-full">
-                <div className="mb-4">
-                  <Field
-                    as="textarea"
-                    id="content"
-                    name="content"
-                    placeholder="What's on your mind?"
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <ErrorMessage name="content" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {(formik) => ( 
+        <Form className="w-full pt-3">
+          <div className="mb-4">
+            {console.log(formik)}
+            <Field
+              as="textarea"
+              id="content"
+              name="content"
+              placeholder="What's on your mind?"
+              className="resize-none h-36 outline-none w-full p-2 px-4 border-t border-gray-300 d focus:outline-none "
+            />
+         
+          </div>
+          <div className="flex px-4 w-full py-3"> <span className="w-20"><Happines/></span>  </div>
+      
 
-                <div className="flex justify-end">
-                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                    Post
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </div>
-   
+          <div className="flex px-4 py-4">
+            <button
+            disabled={!formik.values.content}
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 w-full rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600"
+            >
+              Post
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
