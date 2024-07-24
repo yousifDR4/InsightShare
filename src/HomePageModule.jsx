@@ -7,6 +7,7 @@ import { setUserInfo } from "./utils/localstoreg";
 import useDomScroll from "./controllerHooks/useDomScroll";
 
 function HomePageModule() {
+  const DispatchRedux = useDispatch();
   const backdropRef = useRef();
   const bluerRef = useRef();
   const user = useSelector((state) => state.user.user);
@@ -23,9 +24,7 @@ function HomePageModule() {
   const toggleDropdown1 = () => {
     setIsOpen1(!isOpen1);
   };
-
   const toggleDropdown2 = () => {
-    console.log(isOpen1);
     setIsOpen2(!isOpen2);
   };
 
@@ -42,18 +41,13 @@ function HomePageModule() {
   return {
     backdropRef,
     bluerRef,
-    user,
-    useBackdorp,
-    useDropminue,
     toggleDropdown1,
     toggleDropdown2,
     drop1,
+    backdrop,
     drop2,
     isOpen1,
     isOpen2,
-    setIsOpen1,
-    setIsOpen2,
-    backdrop,
     setBackdrop,
   };
 }
