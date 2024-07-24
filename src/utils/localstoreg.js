@@ -1,7 +1,4 @@
-// src/utils/localStorage.js
-
-const USER_KEY = 'user_info';
-
+const USER_KEY = "user_info";
 export const getUserInfo = () => {
   const userInfo = localStorage.getItem(USER_KEY);
   return userInfo ? JSON.parse(userInfo) : null;

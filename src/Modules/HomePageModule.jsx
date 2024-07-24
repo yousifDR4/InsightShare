@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import useDomScroll from "../controllerHooks/useDomScroll";
+import useDropminue from "./../controllerHooks/useDropminue";
+import useBackdorp from "./../controllerHooks/useBackdorp";
 import { useDispatch, useSelector } from "react-redux";
-import useBackdorp from "./controllerHooks/useBackdorp";
-import useDropminue from "./controllerHooks/useDropminue";
-import { setUser } from "./store/userSlice";
-import { setUserInfo } from "./utils/localstoreg";
-import useDomScroll from "./controllerHooks/useDomScroll";
+import currentuser from "./../auth/currentuser";
+import { setUser } from "../store/userSlice";
+import { setUserInfo } from "../utils/localstoreg";
 
 function HomePageModule() {
   const DispatchRedux = useDispatch();
@@ -36,7 +38,9 @@ function HomePageModule() {
         setUserInfo(data);
       };
       fn();
-    } catch (e) {}
+    } catch (e) {
+      /* empty */
+    }
   }, []);
   return {
     backdropRef,

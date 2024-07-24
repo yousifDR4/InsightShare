@@ -1,13 +1,12 @@
-import Content from "./Content";
-import LeftSideNav from "./LeftSideNav/LeftSideNav";
-import RightSideNav from "./RightSideNav/RightSideNav";
-import Post from "./Post/Post";
-import DropDown from "./UI/DropDown";
-import "./echo.js";
-import "./App.css";
-import MobileChat from "./ChatBox/MobileChat.jsx";
-import HomePageModule from "./HomePageModule.jsx";
-import PageDrop from "./UI/PageDrop.jsx";
+import Content from "../components/Post/Content";
+import LeftSideNav from "../components/LeftSideNav/LeftSideNav.jsx";
+import RightSideNav from "../components/RightSideNav/RightSideNav.jsx";
+import Post from "../components/Post/Post";
+import DropDown from "../UI/DropDown";
+import MobileChat from "../components/ChatBox/MobileChat.jsx";
+import HomePageModule from "../Modules/HomePageModule.jsx";
+import PageDrop from "./../UI/PageDrop";
+
 function Homepage() {
   const {
     backdropRef,

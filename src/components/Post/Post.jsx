@@ -3,7 +3,7 @@ import PostForm from "./PostForm";
 
 const Post = forwardRef(({ backdrop, setBackdrop, backdropRef }, ref) => {
   return (
-    <div className="" ref={backdropRef}>
+    <div className="" ref={ref}>
       <div
         className="bg-white py-5 mb-5 shadow-sm flex px-6 space-x-3 relative"
         onClick={() => {

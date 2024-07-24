@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setChat } from "../store/selectedChatSlice";
+import { setChat } from "../../store/selectedChatSlice";
 
 function UserItem({ data }) {
   const DispatchRedux = useDispatch();

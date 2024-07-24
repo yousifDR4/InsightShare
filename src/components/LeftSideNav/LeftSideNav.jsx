@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { clearUser } from "../store/userSlice";
-import logout from "../auth/logout";
-import { getUserInfo } from "../utils/localstoreg";
+import { clearUser } from "../../store/userSlice";
+import logout from "../../auth/logout";
+import { getUserInfo } from "../../utils/localstoreg";
 
 function LeftSideNav() {
   const navigate = useNavigate();

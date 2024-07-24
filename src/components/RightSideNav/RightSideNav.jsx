@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import "./RightNav.css";
 import UserList from "./UserList";
 import { useDispatch, useSelector } from "react-redux";
-import { closeChat } from "../store/selectedChatSlice";
+import { closeChat } from "../../store/selectedChatSlice";
 const MemorizeMessages = memo(Messages);
 function RightSideNav() {
   const DispatchRedux = useDispatch();

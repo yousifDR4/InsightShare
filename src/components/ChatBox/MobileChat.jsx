@@ -1,5 +1,5 @@
 import React from "react";
-import { setChat } from "../store/selectedChatSlice";
+import { setChat } from "../../store/selectedChatSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function MobileChat({ data }) {
