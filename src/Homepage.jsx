@@ -1,23 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
 import Content from "./Content";
-import getPost from "./getPost";
 import LeftSideNav from "./LeftSideNav/LeftSideNav";
 import RightSideNav from "./RightSideNav/RightSideNav";
 import Post from "./Post/Post";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "./store/userSlice";
-import currentuser from "./auth/currentuser";
-import { setUserInfo } from "./utils/localstoreg";
 import DropDown from "./UI/DropDown";
 import "./echo.js";
 import "./App.css";
 import MobileChat from "./ChatBox/MobileChat.jsx";
-import useDomScroll from "./controllerHooks/useDomScroll.jsx";
-import useDropminue from "./controllerHooks/useDropminue.jsx";
-import useBackdorp from "./controllerHooks/useBackdorp.jsx";
 import HomePageModule from "./HomePageModule.jsx";
 import PageDrop from "./UI/PageDrop.jsx";
-let id = "";
 function Homepage() {
   const {
     backdropRef,
