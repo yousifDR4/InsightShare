@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import currentuser from "./../auth/currentuser";
 import { setUser } from "../store/userSlice";
 import { setUserInfo } from "../utils/localstoreg";
+import currentUserConversations from "../api/currentUserConversations";
 
 function HomePageModule() {
   const DispatchRedux = useDispatch();
@@ -34,6 +35,7 @@ function HomePageModule() {
     try {
       const fn = async () => {
         const data = await currentuser();
+        console.log(data);
         DispatchRedux(setUser(data));
         setUserInfo(data);
       };

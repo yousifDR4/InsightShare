@@ -1,8 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import getmessages from "../../api/messages/conversationsmessages";
+import conversationsmessages from "../../api/messages/conversationsmessages";
+import groupmesages from "../../api/messages/groupmesages";
+import useFetch from "../../Hooks/useFetch";
 
 function ChatBox() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const seletedconversation = useSelector(
+    (state) => state.selectedChat.selectedChat
+  );
+  const fn = async (seterror, setloading) => {
+    if (!seletedconversation.open) return;
+    let data = [];
+    console.log(seletedconversation);
+    try {
+      if (seletedconversation.data?.conversation_id) {
+        data = await conversationsmessages(
+          seletedconversation.data.conversation_id,
+          1
+        );
+        console.log(data);
+      } else {
+        data = await groupmesages(seletedconversation.data.group_id, 1);
+        console.log(data);
+      }
+      if (data?.data) setMessages(data.data);
+      else seterror(true);
+      setloading(false);
+    } catch (e) {
+      seterror(true);
+    }
+  };
+  const { loading, error } = useFetch(fn, seletedconversation.data);
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
@@ -18,9 +49,9 @@ function ChatBox() {
 
   return (
     <>
-      <div className=" grid grid-col-1 grid-rows-12 h-full gap-y-[30px]">
-        <div className="row-start-1 row-end-11 flex flex-col h-full bg-neutral-900 max-h-[900px]">
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className=" flex-col h-screen ">
+        <div className=" flex flex-col  bg-neutral-900 h-[550px]">
+          <div className="flex-1 overflow-y-auto p-2 space-y-2">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -32,14 +63,14 @@ function ChatBox() {
                 style={{ wordBreak: "break-word" }}
               >
                 <div className="text-xs text-gray-400 mb-1">
-                  {msg.timestamp.toLocaleString()}
+                  {msg.created_at.toLocaleString()}
                 </div>
-                <div>{msg.text}</div>
+                <div>{msg.body}</div>
               </div>
             ))}
           </div>
         </div>
-        <div className="row-start-11 p-4 bg-neutral-800 flex items-center space-x-2">
+        <div className=" p-4 bg-neutral-800 flex items-center space-x-2 mb-auto">
           <textarea
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}

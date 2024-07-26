@@ -14,6 +14,7 @@ const selectedChat = createSlice({
       state.selectedChat.data = action.payload;
       console.log("works");
     },
+
     closeChat: (state, action) => {
       return initialState;
     },

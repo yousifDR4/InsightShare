@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function FriendList() {
   const [friends, setFriends] = useState([
-    { id: 1, name: 'Yousif Mazin', profilePic: './photo_2024-05-18_12-08-09.jpg' },
-    { id: 2, name: 'John Doe', profilePic: './john_doe.jpg' },
-    { id: 3, name: 'Jane Smith', profilePic: './jane_smith.jpg' },
+    {
+      id: 1,
+      name: "Yousif Mazin",
+      profilePic: "./photo_2024-05-18_12-08-09.jpg",
+    },
+    { id: 2, name: "John Doe", profilePic: "./john_doe.jpg" },
+    { id: 3, name: "Jane Smith", profilePic: "./jane_smith.jpg" },
   ]);
 
-  const [newFriend, setNewFriend] = useState({ name: '', profilePic: '' });
+  const [newFriend, setNewFriend] = useState({ name: "", profilePic: "" });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,11 +23,8 @@ function FriendList() {
 
   const handleAddFriend = (e) => {
     e.preventDefault();
-    setFriends((prev) => [
-      ...prev,
-      { ...newFriend, id: prev.length + 1 },
-    ]);
-    setNewFriend({ name: '', profilePic: '' });
+    setFriends((prev) => [...prev, { ...newFriend, id: prev.length + 1 }]);
+    setNewFriend({ name: "", profilePic: "" });
   };
 
   return (
@@ -42,9 +43,15 @@ function FriendList() {
             </li>
           ))}
         </ul>
-        <form onSubmit={handleAddFriend} className="bg-gray-100 p-4 rounded shadow-sm">
+        <form
+          onSubmit={handleAddFriend}
+          className="bg-gray-100 p-4 rounded shadow-sm"
+        >
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
               Name
             </label>
             <input
@@ -57,7 +64,10 @@ function FriendList() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="profilePic" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="profilePic"
+              className="block text-sm font-medium text-gray-700"
+            >
               Profile Picture URL
             </label>
             <input

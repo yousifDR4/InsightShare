@@ -1,16 +1,29 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setChat } from "../../store/selectedChatSlice";
 
-function Conversation() {
+function Conversation({ conversation }) {
+  const dispatchRedux = useDispatch();
+  console.log(conversation);
+  const handelcliclk = (e) => {
+    console.log(conversation, "selected");
+    dispatchRedux(setChat(conversation[0]));
+  };
   return (
-    <div className="h-16 rounded-2xl hover:bg-neutral-700">
-      <div className="grid grid-cols-2 grid-rows-2 pl-3 h-full">
-        <div className="text-slate-200 text-lg font-medium col-start-1 row-start-1">
-          title
+    <div
+      className="h-16 min-h-16 rounded-2xl hover:bg-neutral-700"
+      onClick={handelcliclk}
+    >
+      <div className="md:grid md:grid-cols-2 md:grid-rows-2 flex pl-3 h-full">
+        <div className="hidden md:block text-slate-200  mt-2 text-nowrap text-sm font-medium md:col-start-1 md:row-start-1">
+          {conversation[0].name}
         </div>
-        <div className="text-slate-400 col-start-1 row-start-2">
-          how are you
+        <div className="hidden md:block text-slate-400 md:col-start-1 md:row-start-2">
+          {15 < conversation[0]?.body?.length
+            ? conversation[0].body.slice(0, 15) + "..."
+            : conversation[0].body}
         </div>
-        <div className="row-start-1 row-end-3 col-start-2 flex items-center justify-end pr-3">
+        <div className="md:row-start-1 md:row-end-3 md:col-start-2 col-start-1 flex items-center md:justify-end w-full md:pr-3">
           <img
             src="./photo_2024-05-18_12-08-09.jpg"
             className="w-12 h-12 rounded-full"
