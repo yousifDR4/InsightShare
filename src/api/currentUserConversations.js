@@ -15,7 +15,7 @@ const currentUserConversations = (id) => {
       return res.data;
     })
     .catch((e) => {
-      console.log(e);
+      return { error: e };
     });
 };
 export default currentUserConversations;
