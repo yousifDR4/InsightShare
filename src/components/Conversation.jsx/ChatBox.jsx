@@ -7,14 +7,17 @@ import useFetch from "../../Hooks/useFetch";
 import Usermessage from "./Usermessage";
 import { styled } from "styled-components";
 import Othermessages from "./Othermessages";
-
+import groupusers from "../../auth/groupusers";
+let worked2 = 0;
 const ChatBox = memo(() => {
   const textareaRef = useRef();
   const messageRef = useRef();
+  const worked = useRef(false);
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loadmessage, setloadmessage] = useState(false);
+  const [users, setusers] = useState([]);
   const selectedChat = useSelector((state) => state.selectedChat.selectedChat);
   const storemessages = useSelector((state) => state.messages.messages);
   const findkey = (selectedchattemp) => {
@@ -35,7 +38,6 @@ const ChatBox = memo(() => {
   }, [selectedkey, storemessages]);
   console.log();
 
-  console.log(messages);
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
       const messageObject = {
@@ -106,6 +108,39 @@ const ChatBox = memo(() => {
   } catch (e) {
     console.log(e);
   }
+  useEffect(() => {
+    const keys = Object.keys(storemessages);
+    console.log(
+      keys.length < 1 || Object.keys(storemessages).length !== keys.length
+    );
+    if (
+      keys.length < 1 ||
+      Object.keys(storemessages).length !== keys.length ||
+      worked.current ||
+      worked2 === 1
+    )
+      return;
+    let arr = [];
+    async function fn() {
+      console.log(worked);
+      let arr = [];
+      let promises = [];
+
+      keys.forEach((key) => {
+        if (key.includes("group")) {
+          console.log(key);
+          const promise = groupusers(storemessages[key][0].group_id);
+          promises.push(promise);
+        }
+      });
+
+      arr = await Promise.all(promises);
+      console.log(...arr);
+      worked.current = true;
+    }
+    worked2 = 1;
+    fn();
+  }, [storemessages]);
   return (
     <>
       <div

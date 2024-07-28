@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import useOnmountEffect from "../../controllerHooks/useOnmountEffect";
 import { setMessageloaging, startloading } from "../../store/messagesSlice";
 import Loadingconversations from "./Loadingconversations";
+import Userslist from "./Userslist";
 const MemorizeConversation = memo(Conversation);
-
 function ConversationsList() {
   const [Conversations, setConversations] = useState(null);
+  const [userlist, setUserlist] = useState(false);
   const state = useSelector((state) => state.messages.Loading);
   const [keys, setKeys] = useState([]);
   const dispatchRedux = useDispatch();
@@ -64,6 +65,12 @@ function ConversationsList() {
         className={`row-start-3 h-full row-end-13 flex flex-col gap-y-2 px-1 overflow-y-auto max-h-[600px] ${hide()}`}
       >
         {memoizedConversations}
+        <div className="flex  justify-center justify-items-center  text-xl">
+          <span className="font-sans flex justify-center justify-items-center self-center  cursor-pointer justify-self-center text-blue-500">
+            show all users
+          </span>
+        </div>
+        {userlist && <Userslist />}
       </div>
     </>
   );
