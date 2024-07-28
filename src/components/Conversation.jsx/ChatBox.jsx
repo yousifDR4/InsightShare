@@ -1,12 +1,18 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import getmessages from "../../api/messages/conversationsmessages";
 import conversationsmessages from "../../api/messages/conversationsmessages";
 import groupmesages from "../../api/messages/groupmesages";
 import useFetch from "../../Hooks/useFetch";
+import Usermessage from "./Usermessage";
+import { styled } from "styled-components";
+import Othermessages from "./Othermessages";
 
 const ChatBox = memo(() => {
+  const textareaRef = useRef();
+  const messageRef = useRef();
   const [messages, setMessages] = useState([]);
+  const [content, setContent] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loadmessage, setloadmessage] = useState(false);
   const selectedChat = useSelector((state) => state.selectedChat.selectedChat);
@@ -43,52 +49,97 @@ const ChatBox = memo(() => {
       setNewMessage("");
     }
   };
+  function handelinput(e) {
+    setContent(e.target.value);
+    adjustHeight();
+  }
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    console.log(textarea.style.height, textarea.scrollHeight);
+    textarea.style.height = "auto"; // Reset the height
+    textarea.style.height = Math.min(textarea.scrollHeight, 120) + "px"; // Set to the scroll height or max height
+
+    if (!content || content == "") {
+      console.log("not working");
+    } else {
+      const h = textarea.style.height.slice(
+        0,
+        textarea.style.height.length - 2
+      );
+      const newcut = Math.abs(+h + Math.abs(40 - 37));
+      console.log(newcut);
+      console.log(newcut);
+      const temp = `calc(100% - ${newcut}px)`;
+      console.log(temp);
+      adjustMessageHeight(temp);
+    }
+  };
+  const adjustMessageHeight = (x) => {
+    console.log(messageRef.current.style.height);
+    const message = messageRef.current;
+    message.style.height = "auto"; // Reset the height
+    message.style.height = `${x}`;
+  };
+
+  useEffect(() => {
+    adjustHeight();
+  }, [content]);
 
   return (
     <>
-      <div className=" flex-col h-screen ">
-        <div className=" flex flex-col  bg-neutral-900 h-[550px]">
-          <div className="flex-1 overflow-y-auto p-2 space-y-2">
-            {loadmessage &&
-              messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`p-3 rounded-lg max-w-xs ${
-                    msg.user === "current"
-                      ? "bg-blue-600 text-white self-end"
-                      : "bg-green-600 text-white self-start"
-                  }`}
-                  style={{ wordBreak: "break-word" }}
-                >
-                  <div className="text-xs text-gray-400 mb-1">
-                    {msg.created_at.toLocaleString()}
-                  </div>
-                  <div>{msg.body}</div>
-                </div>
-              ))}
+      <div
+        className="absolute top-0 left-0 w-full h-full "
+        style={{ backgroundColor: "#242526" }}
+      >
+        <div
+          ref={messageRef}
+          className="relative flex flex-col text-white text-lg"
+          style={{
+            height: "calc(100% - 40px)",
+            overflowY: "auto",
+          }}
+        >
+          <div className="mb-5">
+            {" "}
+            <div className="bg-neutral-800 h-10 p-3 w-full shadow-md "></div>
+          </div>
+
+          <div className="px-5 py-2 w-full">
+            {" "}
+            <Usermessage />
+          </div>
+          <div className="px-5 py-1 w-full">
+            {" "}
+            <Usermessage />
+          </div>
+          <div className="px-5 py-1 w-full">
+            {" "}
+            <Usermessage />
+          </div>
+          <div className="px-5 py-1 w-full">
+            {" "}
+            <Usermessage />
+          </div>
+          <div className="px-5 py-1 w-full">
+            {" "}
+            <Usermessage />
+          </div>
+          <div className="px-5 py-1 w-full">
+            {" "}
+            <Othermessages />
           </div>
         </div>
-        <div className=" p-4 bg-neutral-800 flex items-center space-x-2 mb-auto">
-          <textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSendMessage();
-              }
-            }}
-            className="flex-1 p-2 rounded-lg bg-neutral-700 text-white resize-none outline-none"
-            placeholder="Type a message..."
-            rows="2"
-          ></textarea>
-          <button
-            onClick={handleSendMessage}
-            className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-500"
-          >
-            Send
-          </button>
-        </div>
+
+        <textarea
+          ref={textareaRef}
+          rows={1}
+          className=" outline-none resize-none overflow-auto  shadow-md w-full rounded-xl h-[50px] bg-neutral-600 text-sm font-normal font-sans p-2 px-20"
+          name=""
+          id=""
+          style={{ lineHeight: "1.5em" }}
+          value={content}
+          onChange={handelinput}
+        ></textarea>
       </div>
     </>
   );

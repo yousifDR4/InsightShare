@@ -2,27 +2,28 @@ import React, { useEffect, useState, useRef } from "react";
 
 function useOnmountEffect(asyncFunction, info) {
   const [data, setData] = useState(null);
-  const [loading, setlaoding] = useState(false);
+  const [loading, setloading] = useState(true);
   const [error, seterror] = useState(false);
   const hasMounted = useRef(false);
   useEffect(() => {
-    try {
-      console.log(info, hasMounted);
-    } catch (e) {}
     seterror(false);
     if (hasMounted.current) return;
+
     try {
+      setloading(true);
       async function fn() {
-        setlaoding(true);
-        const temp = await asyncFunction();
+        setloading(true);
+        const temp = asyncFunction;
         setData(temp);
 
         hasMounted.current = true;
       }
       fn();
     } catch (e) {
-      setlaoding(false);
+      setloading(false);
       seterror(true);
+    } finally {
+      setloading(false);
     }
   }, []);
   return { data, loading, error };

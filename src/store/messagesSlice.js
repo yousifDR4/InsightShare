@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   messages: {},
+  Loading: {
+    Loading: false,
+  },
 };
 const messagesSlice = createSlice({
   name: "messages",
@@ -20,7 +23,15 @@ const messagesSlice = createSlice({
       state.posts = [...state.posts, action.payload.posts];
       state.pagination = action.payload.pagination;
     },
+    setMessageloaging: (state, action) => {
+      state.Loading.Loading = action.payload.loading;
+    },
+    startloading: (state, action) => {
+      state.Loading.Loading = true;
+      return state;
+    },
   },
 });
-export const { setMessages, addMessages } = messagesSlice.actions;
+export const { setMessages, addMessages, setMessageloaging, startloading } =
+  messagesSlice.actions;
 export default messagesSlice.reducer;
