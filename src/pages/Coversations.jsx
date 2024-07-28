@@ -11,7 +11,7 @@ function Conversations() {
   );
   const memorizechatbox = useMemo(() => <Memorizechatbox />, []);
   return (
-    <div className="grid grid-cols-12 w-full h-screen overflow-hidden bg-neutral-800">
+    <div className="grid grid-cols-12 w-full h-screen overflow-y-hidden bg-neutral-800">
       <div className="col-span-3 overflow-y-auto border-r border-r-neutral-700 h-full grid grid-rows-[auto,auto,1fr] m-0">
         <div className="text-xl text-cyan-50 pl-4 font-sans mt-5">
           <span className="font-sans">Chats</span>
@@ -25,7 +25,7 @@ function Conversations() {
         </div>
         {memorizeconversationsList}
       </div>
-      <div className="col-span-9 h-full min-h-[100vh] relative">
+      <div className="col-span-9 overflow-y-hidden h-full min-h-[100vh] relative">
         {memorizechatbox}
       </div>
     </div>

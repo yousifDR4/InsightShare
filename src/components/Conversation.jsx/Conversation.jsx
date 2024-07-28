@@ -24,9 +24,11 @@ const Conversation = ({ conversation, mapkey, length, index }) => {
           dispatchRedux(setMessageloaging({ loading: false }));
         return data;
       } else {
+        dispatchRedux(setMessageloaging({ loading: false }));
         throw new Error("Error!");
       }
     } catch (e) {
+      dispatchRedux(setMessageloaging({ loading: false }));
       console.log(e);
     }
   };

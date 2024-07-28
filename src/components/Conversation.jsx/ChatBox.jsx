@@ -30,14 +30,12 @@ const ChatBox = memo(() => {
   useEffect(() => {
     if (!selectedkey) return;
     setMessages(storemessages[selectedkey]);
+
     if (storemessages[selectedkey]?.length > 0) setloadmessage(true);
   }, [selectedkey, storemessages]);
-  // const { messages: temp } = useMessages();
-  // console.log(temp, "temp");
-  // useEffect(() => {
-  //   console.log(temp, "contexts");
-  // }, [temp]);
+  console.log();
 
+  console.log(messages);
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
       const messageObject = {
@@ -85,6 +83,29 @@ const ChatBox = memo(() => {
     adjustHeight();
   }, [content]);
 
+  function convertISOToLocalTime(isoTimestamp) {
+    // Create a JavaScript Date object from the ISO timestamp
+    const date = new Date(isoTimestamp);
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid ISO timestamp");
+    }
+
+    // Get local time components
+    const localDate = date.toLocaleDateString();
+    const localTime = date.toLocaleTimeString();
+
+    // Return formatted local time
+    return `${localDate} ${localTime}`;
+  }
+  try {
+    const x = convertISOToLocalTime(messages[0].created_at);
+    console.log(x);
+    console.log(x - "0/1/0");
+  } catch (e) {
+    console.log(e);
+  }
   return (
     <>
       <div
@@ -96,37 +117,38 @@ const ChatBox = memo(() => {
           className="relative flex flex-col text-white text-lg"
           style={{
             height: "calc(100% - 40px)",
-            overflowY: "auto",
           }}
         >
-          <div className="mb-5">
+          <div className="mb-10">
             {" "}
-            <div className="bg-neutral-800 h-10 p-3 w-full shadow-md "></div>
+            <div className="fixed bg-neutral-800 h-10 p-3 w-full shadow-md "></div>
           </div>
+          <div className="overflow-y-auto">
+            {messages.length > 0
+              ? (() => {
+                  const messageComponents = [];
+                  for (let index = messages.length - 1; index >= 0; index--) {
+                    const message = messages[index];
+                    messageComponents.push(
+                      <div key={index} className="px-5 py-2 w-full">
+                        <Usermessage
+                          key={index}
+                          message={message}
+                          messages={messages}
+                          index={index}
+                          length={messages.length}
+                        />
+                      </div>
+                    );
+                  }
+                  return messageComponents;
+                })()
+              : ""}
 
-          <div className="px-5 py-2 w-full">
-            {" "}
-            <Usermessage />
-          </div>
-          <div className="px-5 py-1 w-full">
-            {" "}
-            <Usermessage />
-          </div>
-          <div className="px-5 py-1 w-full">
-            {" "}
-            <Usermessage />
-          </div>
-          <div className="px-5 py-1 w-full">
-            {" "}
-            <Usermessage />
-          </div>
-          <div className="px-5 py-1 w-full">
-            {" "}
-            <Usermessage />
-          </div>
-          <div className="px-5 py-1 w-full">
-            {" "}
-            <Othermessages />
+            <div className="px-5 py-1 w-full">
+              {" "}
+              <Othermessages />
+            </div>
           </div>
         </div>
 

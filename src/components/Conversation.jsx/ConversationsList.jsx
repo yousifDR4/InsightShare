@@ -26,7 +26,9 @@ function ConversationsList() {
       console.log("redux");
 
       return data;
-    } catch (e) {}
+    } catch (e) {
+      dispatchRedux(setMessageloaging({ loading: false }));
+    }
   }
   const { data, loading } = useOnmountEffect(fn);
   console.log(loading);
@@ -48,6 +50,7 @@ function ConversationsList() {
   function hide() {
     return state.Loading || loading ? "hidden" : "";
   }
+
   return (
     <>
       {loading ||
