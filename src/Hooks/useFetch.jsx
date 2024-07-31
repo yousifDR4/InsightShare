@@ -12,6 +12,7 @@ function useFetch(fn, dep = []) {
       } catch (e) {
         setlaoding(false);
         seterror(true);
+        console.log(e);
       }
     }
     temp();

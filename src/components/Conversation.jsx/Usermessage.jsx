@@ -3,9 +3,6 @@ import { monthNames } from "../../utils/month";
 
 function Usermessage({ message, messages, index, length }) {
   const LoadDate = () => {
-    console.log(messages);
-    console.log(index);
-    console.log(length);
     if (length - 1 === index) {
       if (new Date(message.created_at) !== new Date())
         return (
@@ -41,9 +38,11 @@ function Usermessage({ message, messages, index, length }) {
         style={{
           backgroundColor: "#0084ff",
         }}
-        className="  font-normal px-3 py-1 pb-2 rounded-2xl font-sans text-base text-slate-100 mb-0 w-fit text-start md:w-96"
+        className="  font-normal px-3 py-1 pb-2 rounded-2xl font-sans text-base text-slate-100 mb-0 w-fit text-start md:max-w-96"
       >
-        <p className="break-words  font-sans">{message.body}</p>
+        <p className=" break-words whitespace-break-spaces font-sans">
+          {message.body}
+        </p>
       </div>
     </>
   );

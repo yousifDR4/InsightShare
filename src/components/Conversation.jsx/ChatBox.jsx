@@ -8,13 +8,14 @@ import Usermessage from "./Usermessage";
 import { styled } from "styled-components";
 import Othermessages from "./Othermessages";
 import groupusers from "../../auth/groupusers";
+import Leftarrow from "../../UI/Leftarrow";
 let worked2 = 0;
-const ChatBox = memo(() => {
+const ChatBox = memo(({ closechat }) => {
   const textareaRef = useRef();
   const messageRef = useRef();
   const worked = useRef(false);
   const [messages, setMessages] = useState([]);
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState();
   const [newMessage, setNewMessage] = useState("");
   const [loadmessage, setloadmessage] = useState(false);
   const [users, setusers] = useState([]);
@@ -55,24 +56,22 @@ const ChatBox = memo(() => {
   }
   const adjustHeight = () => {
     const textarea = textareaRef.current;
+    if (textarea.style.height === 0) return;
     console.log(textarea.style.height, textarea.scrollHeight);
     textarea.style.height = "auto"; // Reset the height
     textarea.style.height = Math.min(textarea.scrollHeight, 120) + "px"; // Set to the scroll height or max height
-
     if (!content || content == "") {
-      console.log("not working");
-    } else {
-      const h = textarea.style.height.slice(
-        0,
-        textarea.style.height.length - 2
-      );
-      const newcut = Math.abs(+h + Math.abs(40 - 37));
-      console.log(newcut);
-      console.log(newcut);
-      const temp = `calc(100% - ${newcut}px)`;
-      console.log(temp);
-      adjustMessageHeight(temp);
+      adjustMessageHeight(`calc(100% - 60px)`);
+      return;
     }
+
+    const h = textarea.style.height.slice(0, textarea.style.height.length - 2);
+    const newcut = Math.abs(+h + Math.abs(60 - 43));
+    console.log(newcut);
+    console.log(newcut);
+    const temp = `calc(100% - ${newcut}px)`;
+    console.log(temp);
+    adjustMessageHeight(temp);
   };
   const adjustMessageHeight = (x) => {
     console.log(messageRef.current.style.height);
@@ -101,46 +100,31 @@ const ChatBox = memo(() => {
     // Return formatted local time
     return `${localDate} ${localTime}`;
   }
-  try {
-    const x = convertISOToLocalTime(messages[0].created_at);
-    console.log(x);
-    console.log(x - "0/1/0");
-  } catch (e) {
-    console.log(e);
-  }
-  useEffect(() => {
-    const keys = Object.keys(storemessages);
-    console.log(
-      keys.length < 1 || Object.keys(storemessages).length !== keys.length
-    );
-    if (
-      keys.length < 1 ||
-      Object.keys(storemessages).length !== keys.length ||
-      worked.current ||
-      worked2 === 1
-    )
-      return;
-    let arr = [];
-    async function fn() {
-      console.log(worked);
-      let arr = [];
-      let promises = [];
+  // try {
+  //   const x = convertISOToLocalTime(messages[0].created_at);
+  //   console.log(x);
+  //   console.log(x - "0/1/0");
+  // } catch (e) {
+  //   console.log(e);
+  // }
 
-      keys.forEach((key) => {
-        if (key.includes("group")) {
-          console.log(key);
-          const promise = groupusers(storemessages[key][0].group_id);
-          promises.push(promise);
-        }
-      });
-
-      arr = await Promise.all(promises);
-      console.log(...arr);
-      worked.current = true;
-    }
-    worked2 = 1;
-    fn();
-  }, [storemessages]);
+  const handelsubmit = (e) => {
+    console.log(content);
+    let s = "";
+    let a = [];
+    if (content.includes(["a", "b"])) console.log(true);
+    setMessages((state) => [
+      {
+        body: content,
+        snder_id: 1,
+        created_at: new Date(),
+        status: "sending",
+      },
+      ...state,
+    ]);
+    setContent("");
+  };
+  console.log(storemessages);
   return (
     <>
       <div
@@ -151,12 +135,32 @@ const ChatBox = memo(() => {
           ref={messageRef}
           className="relative flex flex-col text-white text-lg"
           style={{
-            height: "calc(100% - 40px)",
+            height: "calc(100% - 60px)",
           }}
         >
-          <div className="mb-10">
+          <div className=" w-full">
             {" "}
-            <div className="fixed bg-neutral-800 h-10 p-3 w-full shadow-md "></div>
+            <div className="sticky bg-neutral-800 h-12   w-full shadow-md ">
+              <div className="flex  px-3 h-12">
+                <div className=" relative flex items-center  h-full md:hidden  ">
+                  <span
+                    className="relative cursor-pointer "
+                    onClick={() => closechat()}
+                  >
+                    <Leftarrow />
+                  </span>
+                </div>
+                <div className="relative flex justify-end w-full h-full items-center pr-3 ">
+                  <span className="relative cursor-pointer ">
+                    <img
+                      src="/photo_2024-05-18_12-08-09.jpg"
+                      alt=""
+                      className="w-10 h-10 rounded-3xl"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="overflow-y-auto">
             {messages.length > 0
@@ -186,17 +190,26 @@ const ChatBox = memo(() => {
             </div>
           </div>
         </div>
-
-        <textarea
-          ref={textareaRef}
-          rows={1}
-          className=" outline-none resize-none overflow-auto  shadow-md w-full rounded-xl h-[50px] bg-neutral-600 text-sm font-normal font-sans p-2 px-20"
-          name=""
-          id=""
-          style={{ lineHeight: "1.5em" }}
-          value={content}
-          onChange={handelinput}
-        ></textarea>
+        <div className="px-5 h-fit w-full mb-5">
+          <textarea
+            ref={textareaRef}
+            rows={1}
+            className=" outline-none resize-none overflow-auto  shadow-md w-full rounded-xl h-[50px] bg-neutral-600 text-lg font-normal font-sans p-2 "
+            name=""
+            id=""
+            style={{ lineHeight: "1.5em" }}
+            value={content}
+            onChange={handelinput}
+            onKeyDownCapture={(e) => {
+              console.log(e);
+              if (e.key === "Enter" && e.shiftKey === false) {
+                console.log(e, "work");
+                e.preventDefault();
+                handelsubmit(e);
+              }
+            }}
+          ></textarea>
+        </div>
       </div>
     </>
   );

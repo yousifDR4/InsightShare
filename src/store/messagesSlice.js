@@ -10,7 +10,7 @@ const messagesSlice = createSlice({
   initialState,
   reducers: {
     setMessages: (state, action) => {
-      state.messages[action.payload.type] = action.payload.messages;
+      state.messages = action.payload.messages;
     },
     addMessages: (state, action) => {
       const temp = action.payload.messages;

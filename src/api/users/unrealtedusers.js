@@ -1,9 +1,9 @@
-import decoded from "./../auth/XSRF_token";
-import configaxios from "./axiosconfig";
+import decoded from "../../auth/XSRF_token";
+import configaxios from "../axiosconfig";
 
-const currentUserConversations = (id) => {
+const unrealtedusers = (id, page = 1) => {
   return configaxios
-    .get(`http://localhost:8000/api/conversations/user/${id}/messages`, {
+    .get(`http://localhost:8000/api/user/${id}/users?page=${page}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -18,4 +18,4 @@ const currentUserConversations = (id) => {
       return new Error(e);
     });
 };
-export default currentUserConversations;
+export default unrealtedusers;

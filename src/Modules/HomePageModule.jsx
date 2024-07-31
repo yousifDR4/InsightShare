@@ -35,7 +35,6 @@ function HomePageModule() {
     try {
       const fn = async () => {
         const data = await currentuser();
-        console.log(data);
         DispatchRedux(setUser(data));
         setUserInfo(data);
       };
