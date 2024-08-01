@@ -9,6 +9,7 @@ import { styled } from "styled-components";
 import Othermessages from "./Othermessages";
 import groupusers from "../../auth/groupusers";
 import Leftarrow from "../../UI/Leftarrow";
+import Next from "../../UI/Next";
 let worked2 = 0;
 const ChatBox = memo(({ closechat }) => {
   const textareaRef = useRef();
@@ -20,24 +21,33 @@ const ChatBox = memo(({ closechat }) => {
   const [loadmessage, setloadmessage] = useState(false);
   const [users, setusers] = useState([]);
   const selectedChat = useSelector((state) => state.selectedChat.selectedChat);
+  console.log(selectedChat);
   const storemessages = useSelector((state) => state.messages.messages);
   const findkey = (selectedchattemp) => {
     if (selectedchattemp === null) return;
-    const key = selectedchattemp?.conversation_id
-      ? `conversation_${selectedchattemp.conversation_id}`
-      : `group_${selectedchattemp.group_id}`;
+    let key = "";
+    if (selectedchattemp?.conversation_id)
+      key = `conversation_${selectedchattemp.conversation_id}`;
+    else if (selectedchattemp?.group_id)
+      key = `group_${selectedchattemp.group_id}`;
+    else if (selectedchattemp?.id) key = `user_${selectedchattemp.id}`;
+    else null;
     if (key === "group_undefined") return null;
     return key;
   };
   const selectedkey = findkey(selectedChat?.data ? selectedChat.data : null);
+  console.log(selectedkey);
   console.log("conversation_1" === selectedkey);
   useEffect(() => {
     if (!selectedkey) return;
-    setMessages(storemessages[selectedkey]);
+    console.log(selectedkey);
+    console.log(storemessages);
+    setMessages(storemessages[selectedkey] ? storemessages[selectedkey] : []);
 
     if (storemessages[selectedkey]?.length > 0) setloadmessage(true);
   }, [selectedkey, storemessages]);
   console.log();
+  console.log(messages);
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
@@ -147,7 +157,7 @@ const ChatBox = memo(({ closechat }) => {
                     className="relative cursor-pointer "
                     onClick={() => closechat()}
                   >
-                    <Leftarrow />
+                    <Next />
                   </span>
                 </div>
                 <div className="relative flex justify-end w-full h-full items-center pr-3 ">
@@ -163,7 +173,7 @@ const ChatBox = memo(({ closechat }) => {
             </div>
           </div>
           <div className="overflow-y-auto">
-            {messages.length > 0
+            {messages?.length > 0
               ? (() => {
                   const messageComponents = [];
                   for (let index = messages.length - 1; index >= 0; index--) {

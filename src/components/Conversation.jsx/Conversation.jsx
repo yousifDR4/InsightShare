@@ -34,7 +34,8 @@ const Conversation = ({ conversation, mapkey, length, index, openchat }) => {
   // Handle click event to select conversation
   const handleClick = () => {
     openchat();
-    dispatchRedux(setChat(conversation[0]));
+    console.log(conversation);
+    dispatchRedux(setChat(conversation));
   };
   const state = useSelector((state) => state.messages.Loading);
 
@@ -45,12 +46,12 @@ const Conversation = ({ conversation, mapkey, length, index, openchat }) => {
     >
       <div className="grid grid-cols-2 grid-rows-2  pl-3 h-full">
         <div className=" block text-slate-200 mt-2 text-nowrap text-sm font-medium col-start-1 row-start-1">
-          {conversation[0].name}
+          {conversation.name}
         </div>
         <div className=" block text-slate-400 col-start-1 row-start-2">
-          {15 < conversation[0]?.body?.length
-            ? conversation[0].body.slice(0, 15) + "..."
-            : conversation[0].body}
+          {15 < conversation?.body?.length
+            ? conversation.body.slice(0, 15) + "..."
+            : conversation.body}
         </div>
         <div className="row-start-1 row-end-3 col-start-2  flex items-center justify-end w-full pr-3">
           <img

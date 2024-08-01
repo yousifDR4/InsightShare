@@ -10,17 +10,15 @@ function Userslist() {
   const { isLoading, isError, data, refetch } = useQuery({
     queryFn: promise,
     enabled: false,
-    initialData: [],
+    initialData: {},
     queryKey: ["users"],
     select: (data) => data.data,
-
     refetchOnWindowFocus: false,
   });
 
   function handleClick() {
     refetch();
   }
-
   return (
     <>
       <div

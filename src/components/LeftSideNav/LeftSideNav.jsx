@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { clearUser } from "../../store/userSlice";
 import logout from "../../auth/logout";
 import { getUserInfo } from "../../utils/localstoreg";
@@ -16,27 +16,18 @@ function LeftSideNav() {
         <ul className="hidden md:block lg:w-64 fixed px-3">
           {!user && (
             <>
-              <li
-                onClick={() => {
-                  console.log("works");
-                  navigate("/login");
-                }}
-                className="font-sans hover:bg-gray-300 px-3 py-2 pb-3 font-medium text-lg text-start flex cursor-pointer rounded-md"
-              >
-                <img
-                  src="/download.svg"
-                  alt=""
-                  className="w-6 h-6 mr-3 mt-1 fill-blue-400"
-                />
-                login
+              <li className="font-sans hover:bg-gray-300 px-3 py-2 pb-3 font-medium text-lg text-start flex cursor-pointer rounded-md">
+                <Link to="login" className="flex items-center w-full">
+                  <img
+                    src="/download.svg"
+                    alt="Download Icon"
+                    className="w-6 h-6 mr-3 mt-1 fill-blue-400"
+                  />
+                  login
+                </Link>
               </li>
-              <li
-                onClick={() => {
-                  console.log("works");
-                  navigate("/register");
-                }}
-                className="font-sans hover:bg-gray-300 px-3 py-2 pb-3 font-medium text-lg text-start flex cursor-pointer rounded-md"
-              >
+              <li className="font-sans hover:bg-gray-300 px-3 py-2 pb-3 font-medium text-lg text-start flex cursor-pointer rounded-md">
+                <Link to={"register"}></Link>
                 <img
                   src="/download.svg"
                   alt=""

@@ -6,7 +6,7 @@ import DropDown from "../UI/DropDown";
 import MobileChat from "../components/ChatBox/MobileChat.jsx";
 import HomePageModule from "../Modules/HomePageModule.jsx";
 import PageDrop from "./../UI/PageDrop";
-
+import { Link } from "react-router-dom";
 function Homepage() {
   const {
     backdropRef,
@@ -38,12 +38,19 @@ function Homepage() {
                 <div className="relative">
                   <div className="absolute z-10 -right-9  -top-5 bg-red-50 w-32 h-32 font-sans rounded-md">
                     <ul className="text-black bg-white shadow-sm ">
-                      <li className="p-1 px-2 cursor-pointer hover:bg-gray-200">
-                        login
-                      </li>
-                      <li className="p-1 px-2 cursor-pointer hover:bg-gray-200">
-                        register
-                      </li>
+                      <Link to={"login"}>
+                        {" "}
+                        <li className="p-1 px-2 cursor-pointer hover:bg-gray-200">
+                          login
+                        </li>
+                      </Link>
+
+                      <Link to={"register"}>
+                        <li className="p-1 px-2 cursor-pointer hover:bg-gray-200">
+                          register
+                        </li>
+                      </Link>
+
                       <li className="p-1 px-2 cursor-pointer hover:bg-gray-200">
                         change picture
                       </li>
